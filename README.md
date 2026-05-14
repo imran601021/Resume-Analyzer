@@ -7,8 +7,6 @@ An AI-powered resume matcher that scores how well your resume fits a job descrip
 ---
 
 ## 📸 Screenshots
-
-**Upload your resume and paste the job description**
 ![Input Screen](r1.png)
 
 **Overall match, skill match and content match gauges**
