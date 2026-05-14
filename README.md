@@ -1,4 +1,4 @@
-# 🎯 Resume Analyzer Pro
+# 🎯 Resume Analyzer
 
 An **AI-powered resume matcher** that uses semantic embeddings to score how well your resume fits a job description — with detailed skill gap analysis, keyword density, experience matching, and formatting feedback.
 
