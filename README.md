@@ -1,108 +1,71 @@
-# 🎯 Resume Analyzer
+# 🎯 Resume Analyzer Pro
 
-An **AI-powered resume matcher** that uses semantic embeddings to score how well your resume fits a job description — with detailed skill gap analysis, keyword density, experience matching, and formatting feedback.
-
----
-
-## ✨ Features
-
-- 📄 **PDF resume parsing** via PyMuPDF
-- 🧠 **Semantic matching** using `all-mpnet-base-v2` (80–85% accuracy)
-- 🎯 **Skill gap analysis** — matched, missing, and partial skills
-- 🔍 **Keyword density scoring** from job description
-- 📅 **Experience year extraction** and requirement comparison
-- 💼 **Job title similarity** detection
-- 🧾 **Formatting quality** checker
-- 📊 **Weighted overall score** with interactive gauges
+An AI-powered resume matcher that scores how well your resume fits a job description — with skill gap analysis, keyword density, experience matching, and formatting feedback.
 
 ---
 
-## 🚀 Deploy on Hugging Face Spaces (Recommended)
+## ⚙️ Installation
 
-### Step 1 — Create a new Space
-
-1. Go to [huggingface.co/spaces](https://huggingface.co/spaces)
-2. Click **"Create new Space"**
-3. Fill in:
-   - **Space name:** `resume-analyzer-pro`
-   - **License:** MIT
-   - **SDK:** `Streamlit`
-   - **Visibility:** Public or Private
-4. Click **"Create Space"**
-
-### Step 2 — Upload your files
-
-In your new Space, go to the **"Files"** tab → **"Add file"** and upload:
-
-```
-app.py
-requirements.txt
-```
-
-> ⚠️ Do **not** upload `Dockerfile` or `docker-compose.yml` — Hugging Face manages the container for you when using the Streamlit SDK.
-
-### Step 3 — Wait for build
-
-Hugging Face will automatically install dependencies and launch the app.  
-**First build takes ~5–8 minutes** (downloads the `all-mpnet-base-v2` model, ~420MB).
-
-Once status shows **"Running"**, your app is live at:
-```
-https://huggingface.co/spaces/<your-username>/resume-analyzer-pro
-```
-
-### Step 4 — (Optional) Upgrade hardware
-
-Default **CPU Basic (Free)** works fine. For faster inference:
-- Go to **Settings → Space hardware**
-- Upgrade to **CPU Upgrade** or **T4 GPU**
-
----
-
-## 🐳 Run Locally with Docker
+**Prerequisites:** Python 3.9+
 
 ```bash
-# Clone the repo
+# 1. Clone the repo
 git clone https://github.com/<your-username>/Resume.git
 cd Resume
 
-# Build and start
-docker compose up --build
-
-# Open in browser
-http://localhost:8501
-```
-
-> First run downloads the model (~420MB). Subsequent starts use the cached volume and are instant.
-
----
-
-## 💻 Run Locally without Docker
-
-```bash
-# 1. Create a virtual environment
+# 2. Create a virtual environment
 python -m venv venv
-source venv/bin/activate      # Windows: venv\Scripts\activate
+source venv/bin/activate        # Windows: venv\Scripts\activate
 
-# 2. Install dependencies
+# 3. Install dependencies
 pip install -r requirements.txt
 
-# 3. Launch
+# 4. Run the app
 streamlit run app.py
 ```
 
+Open your browser at **http://localhost:8501**
+
+> **Note:** First launch downloads the `all-mpnet-base-v2` model (~420MB). This only happens once.
+
 ---
 
-## 🧠 How Scoring Works
+## 🐳 Run with Docker
 
-| Component | Weight | Method |
-|-----------|--------|--------|
-| Semantic content match | 35% | Cosine similarity of resume vs job description embeddings |
-| Skill match | 25% | Batch embedding similarity per skill vs threshold |
-| Keyword density | 15% | Exact keyword presence from job description |
-| Experience years | 10% | Regex extraction + requirement comparison |
-| Job title match | 10% | Title embedding vs resume similarity |
-| Formatting quality | 5% | Bullet count, line length, caps usage |
+```bash
+docker compose up --build
+```
+
+Open your browser at **http://localhost:8501**
+
+---
+
+## 📖 How to Use
+
+**Step 1 — Enter your skills**
+In the left sidebar, type your skills as a comma-separated list.
+Example: `Python, Docker, AWS, FastAPI`
+
+**Step 2 — Upload your resume**
+Click "Upload Resume PDF" and select your resume. Must be a text-based PDF (not a scanned image).
+
+**Step 3 — Paste the job description**
+Copy the full job description from any job portal and paste it into the text box.
+
+**Step 4 — Read your results**
+The app generates an overall match score broken down into:
+
+| Score | What it measures |
+|-------|-----------------|
+| 📊 Overall Match | Weighted combination of all scores below |
+| 🧠 Semantic Match | How closely your resume content aligns with the JD |
+| 🎯 Skill Match | Which of your listed skills appear in the JD |
+| 🔍 Keyword Density | How many JD keywords are present in your resume |
+| 📅 Experience | Whether your years of experience meet the requirement |
+| 💼 Job Title | How well your role history aligns with the position |
+| 🧾 Formatting | Bullet usage, line length, and consistency |
+
+You'll also get a **Recommendations** section at the bottom with specific actions to improve your score.
 
 ---
 
@@ -112,8 +75,8 @@ streamlit run app.py
 Resume/
 ├── app.py               # Main Streamlit application
 ├── requirements.txt     # Python dependencies
-├── Dockerfile           # Container definition (local / Docker deploy)
-├── docker-compose.yml   # Local orchestration with resource limits
+├── Dockerfile           # Docker image definition
+├── docker-compose.yml   # Local Docker orchestration
 └── README.md
 ```
 
@@ -123,34 +86,13 @@ Resume/
 
 | Tool | Purpose |
 |------|---------|
-| [Streamlit](https://streamlit.io) | Web UI framework |
+| [Streamlit](https://streamlit.io) | Web UI |
 | [sentence-transformers](https://www.sbert.net) | Semantic embeddings (`all-mpnet-base-v2`) |
 | [PyMuPDF](https://pymupdf.readthedocs.io) | PDF text extraction |
-| [Plotly](https://plotly.com) | Interactive gauge charts |
-
----
-
-## 📌 Usage
-
-1. Enter your skills in the **sidebar** (comma-separated, e.g. `Python, Docker, AWS`)
-2. Upload your **resume as a PDF**
-3. Paste the **job description**
-4. Review your match scores and recommendations
-
----
-
-## 🐛 Bug Fixes (v2)
-
-| Bug | Fix |
-|-----|-----|
-| Skill embeddings re-encoded per skill in a loop | Batch encode all skills in one call — ~20x faster |
-| `extract_job_title` returned a list instead of a string → runtime crash | Refactored to always return a plain `str` |
-| `fuzzywuzzy` / `python-Levenshtein` in requirements but unused | Removed — slimmer install |
-| `language_tool_python` + Java in Dockerfile but not used in code | Removed — saves ~400MB image size |
-| `mem_limit` / `cpu_count` deprecated in Compose v3 | Moved to `deploy.resources` |
+| [Plotly](https://plotly.com) | Score gauge charts |
 
 ---
 
 ## 📄 License
 
-MIT License — free to use, modify, and deploy.
+MIT License
