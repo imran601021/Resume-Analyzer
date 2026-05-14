@@ -1,6 +1,38 @@
-# 🎯 Resume Analyzer
+---
+title: Resume Analyzer Pro
+emoji: 🎯
+colorFrom: blue
+colorTo: green
+sdk: streamlit
+sdk_version: 1.45.0
+app_file: app.py
+pinned: false
+---
+
+# 🎯 Resume Analyzer Pro
 
 An AI-powered resume matcher that scores how well your resume fits a job description — with skill gap analysis, keyword density, experience matching, and formatting feedback.
+
+🔗 **Live Demo:** [huggingface.co/spaces/CallMeRolex/Resume-Analyzer](https://huggingface.co/spaces/CallMeRolex/Resume-Analyzer)
+
+---
+
+## 📸 Screenshots
+
+**Upload your resume and paste the job description**
+![Input Screen](r1.png)
+
+**Overall match, skill match and content match gauges**
+![Score Gauges](r2.png)
+
+**Quick summary and detailed skill breakdown**
+![Detailed Analysis](r5.png)
+
+**Keyword analysis — found vs missing**
+![Keyword Analysis](r3.png)
+
+**Formatting issues and recommendations**
+![Recommendations](r4.png)
 
 ---
 
