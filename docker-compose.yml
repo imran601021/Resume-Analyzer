@@ -12,19 +12,19 @@ services:
       - STREAMLIT_SERVER_HEADLESS=true
       - STREAMLIT_BROWSER_GATHER_USAGE_STATS=false
     volumes:
-      # Mount for model cache persistence
       - model_cache:/root/.cache/torch/sentence_transformers
-      # Optional: Mount for logs
-      - ./logs:/app/logs
     restart: unless-stopped
-    mem_limit: 4g
-    cpu_count: 2
+    deploy:
+      resources:
+        limits:
+          memory: 4g
+          cpus: '2.0'
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8501/_stcore/health"]
       interval: 30s
       timeout: 10s
       retries: 3
-      start_period: 40s
+      start_period: 60s
 
 volumes:
   model_cache:

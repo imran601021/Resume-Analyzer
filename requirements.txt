@@ -1,6 +1,5 @@
 streamlit
 sentence-transformers
 PyMuPDF
-fuzzywuzzy
-python-Levenshtein
 plotly
+numpy
