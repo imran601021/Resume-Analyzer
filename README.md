@@ -1,5 +1,5 @@
 ---
-title: Resume Analyzer Pro
+Title: Resume Analyzer
 emoji: 🎯
 colorFrom: blue
 colorTo: green
@@ -9,7 +9,7 @@ app_file: app.py
 pinned: false
 ---
 
-# 🎯 Resume Analyzer Pro
+# 🎯 Resume Analyzer
 
 An AI-powered resume matcher that scores how well your resume fits a job description — with skill gap analysis, keyword density, experience matching, and formatting feedback.
 
